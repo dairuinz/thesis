@@ -1,5 +1,6 @@
 import preprocessor
 import scraper
+from os.path import exists
 
 def main():
     # links = scraper.collector()
@@ -9,8 +10,12 @@ def main():
     # for i in links:
     #     scraper.reviewer(i)
 
-    # scraper.reviewer()
-    # scraper.stars()
+    if not exists('reviews.txt'):
+        scraper.reviewer()
+
+    if not exists('stars.txt'):
+        scraper.stars()
+
     preprocessor.preprocessor()
 
 if __name__ == "__main__":
