@@ -75,7 +75,8 @@ def collector():
     options.headless = True
     driver = webdriver.Firefox(options=options)
 
-    url = 'https://www.skroutz.gr/c/1863/headphones.html'
+    # url = 'https://www.skroutz.gr/c/1863/headphones.html'
+    url = 'https://www.amazon.com/b/ref=s9_acss_bw_cg_HW14_1a1_w?node=12097479011&pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-6&pf_rd_r=1XCQQZDP4A1VNJBMVXT6&pf_rd_t=101&pf_rd_p=d198b49d-d5bb-42a4-9be1-d335ce534f2f&pf_rd_i=172541'
     driver.get(url)
     html_doc = driver.page_source
     driver.quit()
@@ -83,15 +84,24 @@ def collector():
     # print(html_doc)
 
     items = []
-    for i in soup.find_all("a", {"class": "js-sku-link"}):
+    j=0
+    for i in soup.find_all("a", {"class": "a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal"}):
+        j+=1
+        # print(j, ': ', i.get('href'), sep='')
         items.append(i.get('href'))
 
     items = list(set(items))    #removes duplicates
 
+    substring = '/gp/slredirect/picassoRedirect.html'
+    for it in items.copy():
+        if substring in it:
+            items.remove(it)
+
     j = 0
     links = []
     for i in items:
-        i = 'https://www.skroutz.gr' + i
+
+        i = 'https://www.amazon.com/' + i
         j += 1
         # print(j, ': ', i, sep='')
         links.append(i)
