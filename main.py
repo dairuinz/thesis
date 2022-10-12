@@ -21,7 +21,7 @@ def main():
             print(u)
             scraper.reviewer(u)
 
-    # preprocessor.preprocessor()
+    preprocessor.preprocessor()
 
 if __name__ == "__main__":
     main()

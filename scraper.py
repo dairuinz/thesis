@@ -6,6 +6,7 @@ from selenium.webdriver.firefox.options import Options
 # def reviewer():
 def reviewer(url):
     with open(r'reviews.txt', 'a') as fp:
+        fp.write('\n\n~~~~~~~~~~~~~~~~~~')
         fp.write(url)
     options = Options()
     options.headless = True
