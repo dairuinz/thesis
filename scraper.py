@@ -3,14 +3,16 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
 
-def reviewer():
-# def reviewer(url):
+# def reviewer():
+def reviewer(url):
+    with open(r'reviews.txt', 'a') as fp:
+        fp.write(url)
     options = Options()
     options.headless = True
     driver = webdriver.Firefox(options=options)
 
     # url = 'https://www.skroutz.gr/s/28630974/Edifier-W800BT-Plus-%CE%91%CF%83%CF%8D%CF%81%CE%BC%CE%B1%CF%84%CE%B1-%CE%95%CE%BD%CF%83%CF%8D%CF%81%CE%BC%CE%B1%CF%84%CE%B1-Over-Ear-%CE%91%CE%BA%CE%BF%CF%85%CF%83%CF%84%CE%B9%CE%BA%CE%AC-%CE%BC%CE%B5-55-%CF%8E%CF%81%CE%B5%CF%82-%CE%9B%CE%B5%CE%B9%CF%84%CE%BF%CF%85%CF%81%CE%B3%CE%AF%CE%B1%CF%82-%CE%9C%CE%B1%CF%8D%CF%81%CE%B1.html?from=featured&product_id=77514992#reviews'
-    url = 'https://www.amazon.com/Sony-WH-1000XM4-Canceling-Headphones-phone-call/product-reviews/B0863TXGM3/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
+    # url = 'https://www.amazon.com/Sony-WH-1000XM4-Canceling-Headphones-phone-call/product-reviews/B0863TXGM3/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
     driver.get(url)
     html_doc = driver.page_source
     driver.quit()
@@ -26,7 +28,7 @@ def reviewer():
         # print(i)
         reviews.append(str(i))
 
-    with open(r'reviews.txt', 'w') as fp:
+    with open(r'reviews.txt', 'a') as fp:
         fp.write('\n'.join(reviews))
 
     # j=0
@@ -34,14 +36,16 @@ def reviewer():
     #     j+=1
     #     print(j, ': ', i, sep='')
 
-def stars():
-# def stars(url):
+# def stars():
+def stars(url):
+    with open(r'stars.txt', 'a') as fp:
+        fp.write(url)
     options = Options()
     options.headless = True
     driver = webdriver.Firefox(options=options)
 
     # url = 'https://www.skroutz.gr/s/28630974/Edifier-W800BT-Plus-%CE%91%CF%83%CF%8D%CF%81%CE%BC%CE%B1%CF%84%CE%B1-%CE%95%CE%BD%CF%83%CF%8D%CF%81%CE%BC%CE%B1%CF%84%CE%B1-Over-Ear-%CE%91%CE%BA%CE%BF%CF%85%CF%83%CF%84%CE%B9%CE%BA%CE%AC-%CE%BC%CE%B5-55-%CF%8E%CF%81%CE%B5%CF%82-%CE%9B%CE%B5%CE%B9%CF%84%CE%BF%CF%85%CF%81%CE%B3%CE%AF%CE%B1%CF%82-%CE%9C%CE%B1%CF%8D%CF%81%CE%B1.html?from=featured&product_id=77514992#reviews'
-    url = 'https://www.amazon.com/Sony-WH-1000XM4-Canceling-Headphones-phone-call/product-reviews/B0863TXGM3/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
+    # url = 'https://www.amazon.com/Sony-WH-1000XM4-Canceling-Headphones-phone-call/product-reviews/B0863TXGM3/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
     driver.get(url)
     html_doc = driver.page_source
     driver.quit()
@@ -59,19 +63,13 @@ def stars():
     stars = stars[3:]   #removes first 3
     stars = stars[:10]
 
-    # stars.insert(0, 'stars')
-
-    with open(r'stars.txt', 'w') as fp:
+    with open(r'stars.txt', 'a') as fp:
         fp.write('\n'.join(stars))
 
 
-# j=0
-# for i in reviews:
-#     j+=1
-#     print(j, ': ', i, sep='')
-
 def collector():
     options = Options()
+    options.add_argument('--disable-blink-features=AutomationControlled')
     options.headless = True
     driver = webdriver.Firefox(options=options)
 
@@ -97,13 +95,49 @@ def collector():
         if substring in it:
             items.remove(it)
 
+    substring2 = '/sspa/click?ie'
+    for it in items.copy():
+        if substring2 in it:
+            items.remove(it)
+
     j = 0
-    links = []
+    products = []
     for i in items:
-
-        i = 'https://www.amazon.com/' + i
-        j += 1
+        i = 'https://www.amazon.com' + i
+        # j += 1
         # print(j, ': ', i, sep='')
-        links.append(i)
+        products.append(i)
 
-    return links
+    # print(products)
+
+    links = []
+    for url in products:
+        print('~~~~')
+        # print(url)
+
+        options = Options()
+        options.add_argument('--disable-blink-features=AutomationControlled')
+        options.headless = True
+        driver = webdriver.Firefox(options=options)
+
+        driver.get(url)
+        html_doc = driver.page_source
+        driver.quit()
+        soup = BeautifulSoup(html_doc, 'html.parser')
+        # print(html_doc)
+
+        for i in soup.find_all("a", {"class": "a-link-emphasis a-text-bold"}):
+            print(i.get('href'))
+            links.append(i.get('href'))
+
+    links = list(set(links))  # removes duplicates
+
+    urls = []
+    for i in links:
+        i = 'https://www.amazon.com' + i
+        # j += 1
+        # print(j, ': ', i, sep='')
+        urls.append(i)
+
+    with open(r'urls.txt', 'w') as fp:
+        fp.write('\n'.join(urls))

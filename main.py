@@ -3,19 +3,24 @@ import scraper
 from os.path import exists
 
 def main():
-    links = scraper.collector()
-    # print(len(links))
+    if not exists('urls.txt'):
+        scraper.collector()
 
-    for i in links:
-        print(i)
-    #     scraper.reviewer(i)
+    urls_file = open('urls.txt', 'r')
+    urls = urls_file.readlines()
 
-    # if not exists('reviews.txt'):
-    #     scraper.reviewer()
-    #
-    # if not exists('stars.txt'):
-    #     scraper.stars()
-    #
+    if not exists('stars.txt'):
+        open('stars.txt', 'w')
+        for u in urls:
+            print(u)
+            scraper.stars(u)
+
+    if not exists('reviews.txt'):
+        open('reviews.txt', 'w')
+        for u in urls:
+            print(u)
+            scraper.reviewer(u)
+
     # preprocessor.preprocessor()
 
 if __name__ == "__main__":
