@@ -65,17 +65,16 @@ def stars(url):
     stars = stars[:10]
 
     with open(r'stars.txt', 'a') as fp:
-        fp.write('\n'.join(stars))
+        fp.write('\n'.join(stars) + '\n')
 
 
-def collector():
+def collector(url):
     options = Options()
     options.add_argument('--disable-blink-features=AutomationControlled')
     options.headless = True
     driver = webdriver.Firefox(options=options)
 
-    # url = 'https://www.skroutz.gr/c/1863/headphones.html'
-    url = 'https://www.amazon.com/b/ref=s9_acss_bw_cg_HW14_1a1_w?node=12097479011&pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-6&pf_rd_r=1XCQQZDP4A1VNJBMVXT6&pf_rd_t=101&pf_rd_p=d198b49d-d5bb-42a4-9be1-d335ce534f2f&pf_rd_i=172541'
+    # url = 'https://www.amazon.com/b/ref=s9_acss_bw_cg_HW14_1a1_w?node=12097479011&pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-6&pf_rd_r=1XCQQZDP4A1VNJBMVXT6&pf_rd_t=101&pf_rd_p=d198b49d-d5bb-42a4-9be1-d335ce534f2f&pf_rd_i=172541'
     driver.get(url)
     html_doc = driver.page_source
     driver.quit()
@@ -140,5 +139,27 @@ def collector():
         # print(j, ': ', i, sep='')
         urls.append(i)
 
-    with open(r'urls.txt', 'w') as fp:
-        fp.write('\n'.join(urls))
+    with open(r'urls.txt', 'a') as fp:
+        fp.write('\n'.join(urls) + '\n')
+
+def results(url):
+    for k in range(1,3):
+        options = Options()
+        options.add_argument('--disable-blink-features=AutomationControlled')
+        options.headless = True
+        driver = webdriver.Firefox(options=options)
+
+        # url = 'https://www.amazon.com/b/ref=s9_acss_bw_cg_HW14_1a1_w?node=12097479011&pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-6&pf_rd_r=1XCQQZDP4A1VNJBMVXT6&pf_rd_t=101&pf_rd_p=d198b49d-d5bb-42a4-9be1-d335ce534f2f&pf_rd_i=172541'
+
+        driver.get(url)
+        html_doc = driver.page_source
+        driver.quit()
+        soup = BeautifulSoup(html_doc, 'html.parser')
+
+        pages = []
+        for i in soup.find_all("a", {"class": "s-pagination-item s-pagination-next s-pagination-button s-pagination-separator"}):
+            # print(k, ': ', i.get('href'), sep='')
+            pages.append('https://www.amazon.com' + i.get('href'))
+            url = 'https://www.amazon.com' + i.get('href')
+            with open(r'pages.txt', 'a') as fp:
+                fp.write('\n'.join(pages) + '\n')
