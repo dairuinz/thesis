@@ -55,10 +55,10 @@ def stars(url):
 
     stars = []
     for i in soup.find_all("span", {"class": "a-icon-alt"}):
-        i = str(i).replace('<span class="a-icon-alt">', '')
-        i = str(i).replace(' out of 5 stars', '')
-        i = str(i).replace('</span>', '')
-        # print(i)
+        # i = str(i).replace('<span class="a-icon-alt">', '')
+        # i = str(i).replace(' out of 5 stars', '')
+        # i = str(i).replace('</span>', '')
+        print(i)
         stars.append(str(i))
 
     stars = stars[3:]   #removes first 3
