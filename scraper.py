@@ -53,19 +53,25 @@ def stars(url):
     soup = BeautifulSoup(html_doc, 'html.parser')
     # print(html_doc)
 
-    stars = []
-    for i in soup.find_all("span", {"class": "a-icon-alt"}):
-        # i = str(i).replace('<span class="a-icon-alt">', '')
-        # i = str(i).replace(' out of 5 stars', '')
-        # i = str(i).replace('</span>', '')
-        print(i)
-        stars.append(str(i))
+    for j in soup.find_all("div", {"id": "cm_cr-review_list"}):
+        stars = []
+        for i in soup.find_all("span", {"class": "a-icon-alt"}):
+            i = str(i).replace('<span class="a-icon-alt">', '')
+            i = str(i).replace(' out of 5 stars', '')
+            i = str(i).replace('</span>', '')
+            # print(i)
+            stars.append(str(i))
+        print(len(stars))
+        if len(stars)<5:
+            stars = stars[1:]
+        if len(stars)>4:
+            stars = stars[3:]   #removes first 3
+        if len(stars)>10:
+            stars = stars[:10]  #keeps only 10
+        print(len(stars))
 
-    stars = stars[3:]   #removes first 3
-    stars = stars[:10]
-
-    with open(r'stars.txt', 'a') as fp:
-        fp.write('\n'.join(stars) + '\n')
+        with open(r'stars.txt', 'a') as fp:
+            fp.write('\n'.join(stars) + '\n')
 
 
 def collector(url):

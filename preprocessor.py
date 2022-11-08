@@ -57,9 +57,12 @@ def preprocessor():
     # df1 = df1.drop(df1.iloc[112].name)
     # print(df1['review'][112])
 
+
     df1.iloc[265] = df1.iloc[265] + df1.iloc[266] + df1.iloc[267]
     df1 = df1.drop(df1.iloc[266].name)
     df1 = df1.drop(df1.iloc[266].name)
+    print(df1.iloc[265])
+
 
     # print(df1['review'][265])
 
@@ -80,15 +83,15 @@ def preprocessor():
     df2 = pd.read_csv('stars.txt')
     df2.columns = ['stars']
 
-    # print(df1.head())
-    # print(df2.head())
-    print(len(df1))
-    print(len(df2))
+    print(df1.head())
+    print(df2.head())
+    # print(len(df1))
+    # print(len(df2))
 
-    # df = pd.concat([df1, df2], axis=1)
+    return df1, df2
 
-
-    # print(df[['review', 'stars']])
+def merger(df1, df2):
+    
 
 def prepend_line(file_name, line):
     dummy_file = file_name + '.bak'

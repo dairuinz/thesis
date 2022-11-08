@@ -28,7 +28,9 @@ def main():
             scraper.reviewer(u)
 
 
-    preprocessor.preprocessor()
+    df1, df2 = preprocessor.preprocessor()
+
+    preprocessor.merger(df1, df2)
 
 if __name__ == "__main__":
     main()
