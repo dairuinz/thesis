@@ -8,7 +8,7 @@ warnings.filterwarnings("ignore")
 
 pd.set_option('display.max_columns', None)
 # pd.set_option('display.expand_frame_repr', False)
-pd.set_option('max_colwidth', -1)
+# pd.set_option('max_colwidth', -1)
 
 def preprocessor():
     df1= pd.read_csv('reviews.txt', sep='----', engine='python', on_bad_lines='skip')
@@ -61,7 +61,7 @@ def preprocessor():
     df1.iloc[265] = df1.iloc[265] + df1.iloc[266] + df1.iloc[267]
     df1 = df1.drop(df1.iloc[266].name)
     df1 = df1.drop(df1.iloc[266].name)
-    print(df1.iloc[265])
+    # print(df1.iloc[265])
 
 
     # print(df1['review'][265])
@@ -83,15 +83,27 @@ def preprocessor():
     df2 = pd.read_csv('stars.txt')
     df2.columns = ['stars']
 
-    print(df1.head())
-    print(df2.head())
+    # print(df1.head())
+    # print(df2.head())
     # print(len(df1))
     # print(len(df2))
 
     return df1, df2
 
 def merger(df1, df2):
-    
+    df = pd.concat([df1, df2], axis=1, ignore_index=True)
+    df.columns = ['review', 'stars']
+    # print(df.head())
+
+    j=0
+    for i in df.stars:
+        j+=1
+        if i.startswith('https'):
+            print(j-1)
+            j=0
+
+
+
 
 def prepend_line(file_name, line):
     dummy_file = file_name + '.bak'
