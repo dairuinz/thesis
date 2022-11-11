@@ -93,17 +93,42 @@ def preprocessor():
 def merger(df1, df2):
     df = pd.concat([df1, df2], axis=1, ignore_index=True)
     df.columns = ['review', 'stars']
-    # print(df.head())
 
+    names = []
+    for i in range(10):
+        names.append(df.stars[0])
     j=0
     for i in df.stars:
         j+=1
         if i.startswith('https'):
-            print(j-1)
+            for k in range(j-1):
+                names.append(i)
             j=0
 
+    # print(len(names))
 
+    df = pd.DataFrame(names)
+    df.columns = ['product']
+    # print(len(df))
 
+    df1 = df1[df1["review"].str.startswith("~~~~~~~~~~~~~~~~~~")==False]
+    df1 = df1.drop(df1.iloc[0].name)
+    df1 = df1.reset_index()
+    df1.columns = ['n', 'review']
+    df1 = df1.drop(['n'], axis=1)
+    # print(len(df1))
+
+    df2 = df2[df2["stars"].str.startswith("http")==False]
+    df2 = df2.reset_index()
+    df2.columns = ['n', 'stars']
+    df2 = df2.drop(['n'], axis=1)
+    # print(len(df2))
+
+    df = pd.concat([df, df1], axis=1)
+    df = pd.concat([df, df2], axis=1)
+    # print(df)
+
+    return df
 
 def prepend_line(file_name, line):
     dummy_file = file_name + '.bak'

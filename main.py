@@ -1,3 +1,4 @@
+import alloc
 import preprocessor
 import scraper
 from os.path import exists
@@ -30,7 +31,9 @@ def main():
 
     df1, df2 = preprocessor.preprocessor()
 
-    preprocessor.merger(df1, df2)
+    df = preprocessor.merger(df1, df2)
+
+    alloc.alloc(df)
 
 if __name__ == "__main__":
     main()
