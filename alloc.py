@@ -87,14 +87,14 @@ def alloc(df):
 
     long_string = ','.join(list(alloc_df['processed'].values))
 
-    wordcloud = WordCloud(background_color="white", max_words=5000, contour_width=3, contour_color='steelblue')
-    wordcloud.generate(long_string)
-    wordcloud.to_image()
-
-    plt.figure(figsize=(15, 8))  # size of graph
-    plt.imshow(wordcloud, interpolation='bilinear')  # puts wordcloud into image
-    plt.axis('off')  # no axis
-    plt.show()
+    # wordcloud = WordCloud(background_color="white", max_words=5000, contour_width=3, contour_color='steelblue')
+    # wordcloud.generate(long_string)
+    # wordcloud.to_image()
+    #
+    # plt.figure(figsize=(15, 8))  # size of graph
+    # plt.imshow(wordcloud, interpolation='bilinear')  # puts wordcloud into image
+    # plt.axis('off')  # no axis
+    # plt.show()
 
     import gensim
     from gensim.utils import simple_preprocess

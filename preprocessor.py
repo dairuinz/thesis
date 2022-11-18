@@ -36,9 +36,9 @@ def preprocessor():
 
     # print(df1.iloc[1] + df1.iloc[2] + df1.iloc[3])
 
-    df1.iloc[1] = df1.iloc[1] + df1.iloc[2] + df1.iloc[3]
-    df1 = df1.drop(df1.iloc[2].name)
-    df1 = df1.drop(df1.iloc[2].name)
+    # df1.iloc[1] = df1.iloc[1] + df1.iloc[2] + df1.iloc[3]
+    # df1 = df1.drop(df1.iloc[2].name)
+    # df1 = df1.drop(df1.iloc[2].name)
 
     df1 = pd.DataFrame.reset_index(df1)
 
@@ -58,17 +58,17 @@ def preprocessor():
     # print(df1['review'][112])
 
 
-    df1.iloc[265] = df1.iloc[265] + df1.iloc[266] + df1.iloc[267]
-    df1 = df1.drop(df1.iloc[266].name)
-    df1 = df1.drop(df1.iloc[266].name)
+    # df1.iloc[265] = df1.iloc[265] + df1.iloc[266] + df1.iloc[267]
+    # df1 = df1.drop(df1.iloc[266].name)
+    # df1 = df1.drop(df1.iloc[266].name)
     # print(df1.iloc[265])
 
 
     # print(df1['review'][265])
-
-    df1 = pd.DataFrame.reset_index(df1)
-    df1 = df1.drop(['index'], axis=1)
-    df1.columns = ['review']
+    #
+    # df1 = pd.DataFrame.reset_index(df1)
+    # df1 = df1.drop(['index'], axis=1)
+    # df1.columns = ['review']
 
 
     with open('stars.txt') as f:    # print(df2.stars)
@@ -85,8 +85,11 @@ def preprocessor():
 
     # print(df1.head())
     # print(df2.head())
-    # print(len(df1))
-    # print(len(df2))
+    print(len(df1))
+    print(len(df2))
+
+    # df1.to_csv('reviews.csv', index=False)
+    # df2.to_csv('stars.csv', index=False)
 
     return df1, df2
 

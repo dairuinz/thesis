@@ -1,0 +1,9 @@
+selenium
+pandas
+numpy
+matplotlib
+scikit-learn
+beautifulsoup4
+gensim
+ntlk
+spacy
