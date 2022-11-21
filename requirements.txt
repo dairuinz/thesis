@@ -5,5 +5,5 @@ matplotlib
 scikit-learn
 beautifulsoup4
 gensim
-ntlk
+nltk
 spacy

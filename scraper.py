@@ -9,12 +9,13 @@ def reviewer(url):
     options = Options()
     # options.add_argument('--disable-blink-features=AutomationControlled')
     options.headless = True
-    driver = webdriver.Firefox(firefox_binary=r"/usr/bin/firefox", options=options)
+    # driver = webdriver.Firefox(firefox_binary=r"/usr/bin/firefox", options=options)
+    driver = webdriver.Firefox(firefox_binary=r"/home/maraziotis/Downloads/firefox/firefox/firefox", options=options)
 
     # url = 'https://www.amazon.com/Sennheiser-HD-450SE-Bluetooth-Headphone/product-reviews/B09325WTV5/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
     driver.get(url)
     html_doc = driver.page_source
-    # driver.quit()
+    driver.quit()
     soup = BeautifulSoup(html_doc, 'html.parser')
 
     results =  soup.find_all("div", {"class": "a-section review aok-relative"})
@@ -29,53 +30,19 @@ def reviewer(url):
         fp.close()
 
 def stars(url):
-    # with open(r'stars.txt', 'a') as fp:
-    #     fp.write(url)
-    # options = Options()
-    # options.headless = True
-    # driver = webdriver.Firefox(firefox_binary=r"/usr/bin/firefox", options=options)
-    #
-    # # url = 'https://www.skroutz.gr/s/28630974/Edifier-W800BT-Plus-%CE%91%CF%83%CF%8D%CF%81%CE%BC%CE%B1%CF%84%CE%B1-%CE%95%CE%BD%CF%83%CF%8D%CF%81%CE%BC%CE%B1%CF%84%CE%B1-Over-Ear-%CE%91%CE%BA%CE%BF%CF%85%CF%83%CF%84%CE%B9%CE%BA%CE%AC-%CE%BC%CE%B5-55-%CF%8E%CF%81%CE%B5%CF%82-%CE%9B%CE%B5%CE%B9%CF%84%CE%BF%CF%85%CF%81%CE%B3%CE%AF%CE%B1%CF%82-%CE%9C%CE%B1%CF%8D%CF%81%CE%B1.html?from=featured&product_id=77514992#reviews'
-    # # url = 'https://www.amazon.com/Sony-WH-1000XM4-Canceling-Headphones-phone-call/product-reviews/B0863TXGM3/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
-    # driver.get(url)
-    # html_doc = driver.page_source
-    # driver.quit()
-    # soup = BeautifulSoup(html_doc, 'html.parser')
-    # # print(html_doc)
-    #
-    # for j in soup.find_all("div", {"id": "cm_cr-review_list"}):
-    #     stars = []
-    #     for i in soup.find_all("span", {"class": "a-icon-alt"}):
-    #         i = str(i).replace('<span class="a-icon-alt">', '')
-    #         i = str(i).replace(' out of 5 stars', '')
-    #         i = str(i).replace('</span>', '')
-    #         # print(i)
-    #         stars.append(str(i))
-    #     print(len(stars))
-    #     if len(stars)<5:
-    #         stars = stars[1:]
-    #     if len(stars)>4:
-    #         stars = stars[3:]   #removes first 3
-    #     if len(stars)>10:
-    #         stars = stars[:10]  #keeps only 10
-    #     print(len(stars))
-    #
-    #     with open(r'stars.txt', 'a') as fp:
-    #         fp.write('\n'.join(stars) + '\n')
-
     with open(r'stars.txt', 'a') as fp:
         fp.write('\n' + url)
-        fp.close()
 
     options = Options()
     # options.add_argument('--disable-blink-features=AutomationControlled')
     options.headless = True
-    driver = webdriver.Firefox(firefox_binary=r"/usr/bin/firefox", options=options)
+    # driver = webdriver.Firefox(firefox_binary=r"/etc/firefox", options=options)
+    driver = webdriver.Firefox(firefox_binary=r"/home/maraziotis/Downloads/firefox/firefox/firefox", options=options)
 
     # url = 'https://www.amazon.com/Sennheiser-HD-450SE-Bluetooth-Headphone/product-reviews/B09325WTV5/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
     driver.get(url)
     html_doc = driver.page_source
-    # driver.quit()
+    driver.quit()
     soup = BeautifulSoup(html_doc, 'html.parser')
 
     results =  soup.find_all("div", {"class": "a-section review aok-relative"})
@@ -83,10 +50,10 @@ def stars(url):
     stars = []
     for i in results:
         stars.append(i.find('span', attrs={'class': 'a-icon-alt'}).text.replace('<span class="a-icon-alt">', '').replace(' out of 5 stars', '').replace('</span>', ''))
+        # stars.append(i.find('span', attrs={'class': 'a-icon-alt'}).text)
 
     with open(r'stars.txt', 'a') as fp:
         fp.write('\n'.join(stars))
-        fp.close()
 
 
 def collector(url):

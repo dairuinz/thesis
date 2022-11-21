@@ -38,7 +38,7 @@ def main():
             scraper.reviewer(u)
 
 
-    # df1, df2 = preprocessor.preprocessor()
+    df1, df2 = preprocessor.preprocessor()
 
     # df = preprocessor.merger(df1, df2)
     #
