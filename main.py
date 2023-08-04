@@ -1,4 +1,5 @@
 import alloc
+import pred
 import preprocessor
 import scraper
 from os.path import exists
@@ -37,28 +38,18 @@ def main():
             print(j, ': ', u.replace('\n', ''), sep='')
             scraper.reviewer(u)
 
+    preprocessor.dataframe_creator()
 
-    df1, df2 = preprocessor.preprocessor()
+    # df1, df2 = preprocessor.preprocessor()
 
     # df = preprocessor.merger(df1, df2)
-    #
+
     # alloc.alloc(df)
 
-    # options = Options()
-    # # options.add_argument('--disable-blink-features=AutomationControlled')
-    # options.headless = True
-    # driver = webdriver.Firefox(firefox_binary=r"/usr/bin/firefox", options=options)
-    #
-    # url = 'https://www.amazon.com/Sennheiser-HD-450SE-Bluetooth-Headphone/product-reviews/B09325WTV5/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews'
-    # driver.get(url)
-    # html_doc = driver.page_source
-    # # driver.quit()
-    # soup = BeautifulSoup(html_doc, 'html.parser')
-    #
-    # results =  soup.find_all("div", {"class": "a-section review aok-relative"})
-    #
-    # for i in results:
-    #     print(i.find('span', attrs={'class':'a-size-base review-text review-text-content'}).text)
+    # work_df = df[:100]
+
+    # pred.wordtovec()
+    # pred.model_training()
 
 if __name__ == "__main__":
     main()

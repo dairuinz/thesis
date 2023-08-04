@@ -11,30 +11,37 @@ pd.set_option('display.max_columns', None)
 # pd.set_option('max_colwidth', -1)
 
 def preprocessor():
-    with open("reviews.txt", 'r') as r, open('reviews2.txt', 'w') as o:
+    with open("reviews.txt", 'r', encoding='utf8') as r, open('reviews2.txt', 'w', encoding='utf8') as o:
         for line in r:
             # strip() function
             if line.strip():
                 o.write(line)
-    f = open("reviews2.txt", "r")
+    f = open("reviews2.txt", "r", encoding='utf8')
     # print("New text file:\n", f.read())
 
-    with open('reviews.txt') as f:    # print(df2.stars)
+    with open('reviews.txt', encoding='utf8') as f:    # print(df2.stars)
         fl = f.readline().strip()
         if (fl == 'reviews'):
             pass
         else:
-            prepend_line("reviews2.txt", "reviews")  # puts 'stars' at first line
+            try:
+                prepend_line("reviews2.txt", "reviews")  # puts 'stars' at first line
+            except:
+                pass
 
     df1 = pd.read_csv('reviews2.txt')
     df1.columns = ['reviews']
+    # print(df1.head(1))
 
-    with open('stars.txt') as f:    # print(df2.stars)
+    with open('stars.txt', encoding='utf8') as f:    # print(df2.stars)
         fl = f.readline().strip()
         if (fl == 'stars'):
             pass
         else:
-            prepend_line("stars.txt", "stars")  # puts 'stars' at first line
+            try:
+                prepend_line("stars.txt", "stars")  # puts 'stars' at first line
+            except:
+                pass
 
     df2 = pd.read_csv('stars.txt')
     df2.columns = ['stars']
@@ -64,30 +71,37 @@ def merger(df1, df2):
                 names.append(i)
             j=0
 
-    # print(len(names))
 
     df = pd.DataFrame(names)
     df.columns = ['product']
-    # print(len(df))
 
     df1 = df1[df1["review"].str.startswith("~~~~~~~~~~~~~~~~~~")==False]
     df1 = df1.drop(df1.iloc[0].name)
     df1 = df1.reset_index()
     df1.columns = ['n', 'review']
     df1 = df1.drop(['n'], axis=1)
-    # print(len(df1))
 
     df2 = df2[df2["stars"].str.startswith("http")==False]
     df2 = df2.reset_index()
     df2.columns = ['n', 'stars']
     df2 = df2.drop(['n'], axis=1)
-    # print(len(df2))
 
     df = pd.concat([df, df1], axis=1)
     df = pd.concat([df, df2], axis=1)
-    # print(df)
 
     return df
+
+def dataframe_creator():
+    df1 = pd.read_csv('reviews2.txt', sep='delimiter', header=None)
+    df2 = pd.read_csv('stars.txt', sep='delimiter', header=None)
+    print(len(df1))
+    print(len(df2))
+
+    df = pd.concat([df1, df2], axis=1, ignore_index=True)
+    df.columns = ['review', 'stars']
+    print(df.head())
+
+
 
 def prepend_line(file_name, line):
     dummy_file = file_name + '.bak'
